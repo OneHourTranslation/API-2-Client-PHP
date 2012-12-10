@@ -357,12 +357,11 @@ class OHTAPI
     /**
      * Fetch account details and credits balance
      *
-     * @param integer $accountId
      * @return stdClass response object
      */
-    public function getAccountDetails($accountId)
+    public function getAccountDetails()
     {
-        $url = "/accounts/{$accountId}";
+        $url = "/accounts/";
         $method = 'get';
 
         return $this->request($url, $method);
@@ -652,13 +651,13 @@ class OHTAPI
     /**
      * Translate text
      *
-     * @param string $sourceContent
-     * @param string $contentType
      * @param string $sourceLang
      * @param string $targetLang
+     * @param string $sourceContent
+     * @param string $contentType (optional)
      * @return stdClass response object
      */
-    public function machineTranslation($sourceContent, $contentType, $sourceLang, $targetLang)
+    public function machineTranslation($sourceLang, $targetLang, $sourceContent, $contentType = 'text')
     {
         $url = "/mt/translate/{$contentType}";
         $method = 'get';
