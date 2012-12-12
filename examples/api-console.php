@@ -1,16 +1,13 @@
 <?php
-$sandbox = 'http://max.oht';
-$prod = 'https://www.onehourtranslation.com';
 
-$account_id = 6; //demo user
-$secret_key = '7b65907c8fc341bcd558850b71150fd2'; //demo user
-
+require_once '../config/config.php';
 
 /*
  * Switch between "$prod" to use production or "$sandbox" to use sandbox environment.
  */
-$url = $sandbox;
+$url = OHT_SANDBOX_URL;
 ?>
+
 <style>
     .apiMethod {
         float: left;
@@ -35,10 +32,10 @@ $url = $sandbox;
 <div class="apiMethod">
     <h2>Submit a New Project:</h2>
     <div class="apiForm">
-        <form method="post" action="<?php echo $url ?>/api/2/projects/translation/" target="resNewIframe">
+        <form method="post" action="<?php echo $url ?>/projects/translation/" target="resNewIframe">
             URL: <input type="text" name="url" value="<?php echo $url ?>" readonly="readonly" disabled="disabled"/> <br />
-            Account ID: <input type="text" name="account_id" value="<?php echo $account_id ?>" /> <br />
-            Secret Key: <input type="text" name="secret_key" value="<?php echo $secret_key ?>"  /><br />
+            Public Key: <input type="text" name="public_key" value="<?php echo OHT_API_PUBLIC_KEY ?>" /> <br />
+            Secret Key: <input type="text" name="secret_key" value="<?php echo OHT_API_SECRET_KEY ?>"  /><br />
             Source: <input type="text" name="source_lang" /><br />
             Target: <input type="text" name="target_lang" /><br />
             Resources: <input type="text" name="resources" /><br />
@@ -65,12 +62,12 @@ $url = $sandbox;
 <div class="apiMethod">
     <h2>Get Project Details:</h2>
     <div class="apiForm">
-        <form method="get" action="<?php echo $url ?>/api/2/projects/" target="resProjDetailsIframe">
+        <form method="get" action="<?php echo $url ?>/projects/" target="resProjDetailsIframe">
             URL: <input type="text" name="url" value="<?php echo $url ?>" readonly="readonly" disabled="disabled"/> <br />
-            Account ID: <input type="text" name="account_id" value="<?php echo $account_id ?>" /> <br />
-            Secret Key: <input type="text" name="secret_key" value="<?php echo $secret_key ?>"  /><br />
+            Public Key: <input type="text" name="public_key" value="<?php echo OHT_API_PUBLIC_KEY ?>" /> <br />
+            Secret Key: <input type="text" name="secret_key" value="<?php echo OHT_API_SECRET_KEY ?>"  /><br />
             Project ID: <input type="text" name="pid" id="pid"/><br />
-            <input type="submit" value="Get Details" onclick="this.form.action = '<?php echo $url ?>/api/2/projects/'+this.form.pid.value"/>
+            <input type="submit" value="Get Details" onclick="this.form.action = '<?php echo $url ?>/projects/'+this.form.pid.value"/>
         </form>
     </div>
 
@@ -83,10 +80,10 @@ $url = $sandbox;
 <div class="apiMethod">
     <h2>Submit a New Resource:</h2>
     <div class="apiForm">
-        <form method="post" action="<?php echo $url ?>/api/2/resources/text/" target="resProjContentsIframe">
+        <form method="post" action="<?php echo $url ?>/resources/text/" target="resProjContentsIframe">
             URL: <input type="text" name="url" value="<?php echo $url ?>" readonly="readonly" disabled="disabled"/> <br />
-            Account ID: <input type="text" name="account_id" value="<?php echo $account_id ?>" /> <br />
-            Secret Key: <input type="text" name="secret_key" value="<?php echo $secret_key ?>"  /><br />
+            Public Key: <input type="text" name="public_key" value="<?php echo OHT_API_PUBLIC_KEY ?>" /> <br />
+            Secret Key: <input type="text" name="secret_key" value="<?php echo OHT_API_SECRET_KEY ?>"  /><br />
             Text: <input type="text" name="text" id="text"/><br />
             <input type="submit" value="Submit a New Resource"/>
         </form>
@@ -101,10 +98,10 @@ $url = $sandbox;
 <div class="apiMethod">
     <h2>Get Account Details:</h2>
     <div class="apiForm">
-        <form method="get" action="<?php echo $url ?>/api/2/accounts/" target="resAccDetailsIframe">
+        <form method="get" action="<?php echo $url ?>/accounts/" target="resAccDetailsIframe">
             URL: <input type="text" name="url" value="<?php echo $url ?>" readonly="readonly" disabled="disabled"/> <br />
-            Account ID: <input type="text" name="account_id" value="<?php echo $account_id ?>" /> <br />
-            Secret Key: <input type="text" name="secret_key" value="<?php echo $secret_key ?>"  /><br />
+            Public Key: <input type="text" name="public_key" value="<?php echo OHT_API_PUBLIC_KEY ?>" /> <br />
+            Secret Key: <input type="text" name="secret_key" value="<?php echo OHT_API_SECRET_KEY ?>"  /><br />
 
             <input type="submit" value="Get Details" />
         </form>
@@ -119,10 +116,10 @@ $url = $sandbox;
 <div class="apiMethod">
     <h2>Machine Translation:</h2>
     <div class="apiForm">
-        <form method="post" action="<?php echo $url ?>/api/2/mt/translate/text" target="resMTIframe">
+        <form method="post" action="<?php echo $url ?>/mt/translate/text" target="resMTIframe">
             URL: <input type="text" name="url" value="<?php echo $url ?>" readonly="readonly" disabled="disabled"/> <br />
-            Account ID: <input type="text" name="account_id" value="<?php echo $account_id ?>" /> <br />
-            Secret Key: <input type="text" name="secret_key" value="<?php echo $secret_key ?>"  /><br />
+            Public Key: <input type="text" name="public_key" value="<?php echo OHT_API_PUBLIC_KEY ?>" /> <br />
+            Secret Key: <input type="text" name="secret_key" value="<?php echo OHT_API_SECRET_KEY ?>"  /><br />
             Source: <input type="text" name="source_lang" /><br />
             Target: <input type="text" name="target_lang" /><br />
             Content: <textarea name="source_content" cols="50" rows="20"></textarea><br />

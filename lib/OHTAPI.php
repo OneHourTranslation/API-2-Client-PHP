@@ -7,41 +7,20 @@ if (!function_exists('json_decode')) {
     throw new Exception('OneHourTranslation needs the JSON PHP extension.');
 }
 
-define('OHT_API_ACCOUNT_ID', '6'); //demo account
-define('OHT_API_SECRET_KEY', '7b65907c8fc341bcd558850b71150fd2'); //demo account
-define('OHT_API_SANDBOX', true);
+require_once '../config/config.php';
 
 class OHTAPI_Exception extends Exception
 {
 
-    protected $httpCode;
     protected $statusCode;
     protected $statusMessage;
+    protected $errorsArray;
 
-    function __construct($httpCode, $statusCode, $statusMessage)
+    function __construct($statusCode, $statusMessage, Array $errorsArray = array())
     {
-        parent::__construct(sprintf("#%d %s (HTTP %d)", $statusCode, $statusMessage, $httpCode));
-        $this->setHttpCode($httpCode);
+        parent::__construct(sprintf("#%d %s Errors [%s]", $statusCode, $statusMessage, implode(",", $errorsArray)));
         $this->setStatusCode($statusCode);
         $this->setStatusMessage($statusMessage);
-    }
-
-    /**
-     *
-     * @return
-     */
-    public function getHttpCode()
-    {
-        return $this->httpCode;
-    }
-
-    /**
-     *
-     * @param $httpCode
-     */
-    public function setHttpCode($httpCode)
-    {
-        $this->httpCode = $httpCode;
     }
 
     /**
@@ -80,6 +59,24 @@ class OHTAPI_Exception extends Exception
         $this->statusMessage = $statusMessage;
     }
 
+    /**
+     *
+     * @return
+     */
+    public function getErrorsArray()
+    {
+        return $this->errorsArray;
+    }
+
+    /**
+     *
+     * @param $errorsArray
+     */
+    public function setErrorsArray(Array $errorsArray = array())
+    {
+        $this->errorsArray = $errorsArray;
+    }
+
     function __toString()
     {
         return $this->getMessage();
@@ -90,14 +87,10 @@ class OHTAPI_Exception extends Exception
 class OHTAPI
 {
 
-    const VERSION = '2';
-    const OHT_PRODUCTION_URL = 'http://max.oht/api/2';
-    const OHT_SANDBOX_URL = 'http://max.oht/api/2';
-
     /**
      * @var integer
      */
-    protected static $staticAccountId;
+    protected static $staticPublicKey;
 
     /**
      * @var string
@@ -117,7 +110,7 @@ class OHTAPI
     /**
      * @var integer
      */
-    protected $accountId;
+    protected $publicKey;
 
     /**
      * @var string
@@ -134,17 +127,17 @@ class OHTAPI
      *
      * @param array $conf - contains the following parameters:<br />
      * 	<ol>
-     * 	<li>'account_id' - Your OHT account ID</li>
+     * 	<li>'public_key' - Your OHT public KEY</li>
      *  <li>'secret_key' - Your OHT secret API key</li>
      *  <li>'sandbox' - (boolean) Use OHT sandbox</li>
      *  </ol>
      *
      */
-    static public function config($conf = array())
+    static public function config(Array $conf = Array())
     {
-        self::$staticAccountId = (empty($conf['account_id'])) ? OHT_API_ACCOUNT_ID : $conf['account_id'];
-        self::$staticSecretKey = (empty($conf['secret_key'])) ? OHT_API_SECRET_KEY : $conf['secret_key'];
-        self::$staticSandbox = (isset($conf['sandbox'])) ? (bool) $conf['sandbox'] : OHT_API_SANDBOX;
+        self::$staticPublicKey = $conf['public_key'];
+        self::$staticSecretKey = $conf['secret_key'];
+        self::$staticSandbox = (bool) $conf['sandbox'];
     }
 
     /**
@@ -156,101 +149,101 @@ class OHTAPI
     {
         if (!self::$instance) {
             $className = __CLASS__;
-            self::$instance = new $className(self::$staticAccountId, self::$staticSecretKey, self::$staticSandbox);
+            self::$instance = new $className(self::$staticPublicKey, self::$staticSecretKey, self::$staticSandbox);
         }
         return self::$instance;
     }
 
     /**
-     * @param $account_id
-     * @param $secret_key
+     * @param $publicKey
+     * @param $secretKey
      * @param $sandbox boolean true to use OHT sandbox
      */
-    public function __construct($accountId = OHT_API_ACCOUNT_ID, $secretKey = OHT_API_SECRET_KEY, $sandbox = OHT_API_SANDBOX)
+    public function __construct($publicKey, $secretKey, $sandbox)
     {
-        $this->setAccountId($accountId);
+        $this->setPublicKey($publicKey);
         $this->setSecretKey($secretKey);
-        $this->setSandbox($sandbox);
+        $this->setSandbox((bool) $sandbox);
     }
 
     /**
      * Create a new Translation Project
      * @param string $source
      * @param string $target
-     * @param string $resources
+     * @param string $sources
      * @param integer $word_count (optional)
      * @param string $notes (optional)
      * @param string $callback_url (optional)
      * @param array $params (optional)
      * @return stdClass response object
      */
-    public function newTranslationProject($source, $target, $resources, $wordCount = 0, $notes = '', $callbackUrl = '', $params = array())
+    public function newTranslationProject($source, $target, $sources, $wordCount = 0, $notes = '', $callbackUrl = '', $params = array())
     {
         $url = "/projects/translation";
         $method = 'post';
         $params['source_lang'] = $source;
         $params['target_lang'] = $target;
-        $params['resources'] = $resources;
+        $params['sources'] = $sources;
         $params['word_count'] = $wordCount;
         $params['notes'] = $notes;
         $params['callback_url'] = $callbackUrl;
 
-        return $this->request($url, $method, $params);
+        return json_decode($this->request($url, $method, $params));
     }
 
     /**
      * Create a new Transcription Project
      * @param string $source
-     * @param string $resources
+     * @param string $sources
      * @param integer $word_count (optional)
      * @param string $notes (optional)
      * @param string $callback_url (optional)
      * @param array $params (optional)
      * @return stdClass response object
      */
-    public function newTranscriptionProject($source, $resources, $wordCount = 0, $notes = '', $callbackUrl = '', $params = array())
+    public function newTranscriptionProject($source, $sources, $wordCount = 0, $notes = '', $callbackUrl = '', $params = array())
     {
         $url = "/projects/transcription";
         $method = 'post';
         $params['source_lang'] = $source;
         $params['target_lang'] = $source;
-        $params['resources'] = $resources;
+        $params['sources'] = $sources;
         $params['word_count'] = $wordCount;
         $params['notes'] = $notes;
         $params['callback_url'] = $callbackUrl;
 
-        return $this->request($url, $method, $params);
+        return json_decode($this->request($url, $method, $params));
     }
 
     /**
      * Create a new Proofreading Project (only source docs)
      * @param string $source
-     * @param string $resources
+     * @param string $sources
      * @param integer $word_count (optional)
      * @param string $notes (optional)
      * @param string $callback_url (optional)
      * @param array $params (optional)
      * @return stdClass response object
      */
-    public function newProofGeneralProject($source, $resources, $wordCount = 0, $notes = '', $callbackUrl = '', $params = array())
+    public function newProofReadingProject($source, $sources, $wordCount = 0, $notes = '', $callbackUrl = '', $params = array())
     {
         $url = "/projects/proofgeneral";
         $method = 'post';
         $params['source_lang'] = $source;
         $params['target_lang'] = $source;
-        $params['resources'] = $resources;
+        $params['sources'] = $sources;
         $params['word_count'] = $wordCount;
         $params['notes'] = $notes;
         $params['callback_url'] = $callbackUrl;
 
-        return $this->request($url, $method, $params);
+        return json_decode($this->request($url, $method, $params));
     }
 
     /**
      * Create a new Proofreading Project (source and translated docs)
      * @param string $source
      * @param string $target
-     * @param string $resources
+     * @param string $sources
      * @param string $translations
      * @param integer $word_count (optional)
      * @param string $notes (optional)
@@ -258,44 +251,44 @@ class OHTAPI
      * @param array $params (optional)
      * @return stdClass response object
      */
-    public function newProofTranslatedProject($source, $target, $resources, $translations, $wordCount = 0, $notes = '', $callbackUrl = '', $params = array())
+    public function newProofTranslatedProject($source, $target, $sources, $translations, $wordCount = 0, $notes = '', $callbackUrl = '', $params = array())
     {
         $url = "/projects/prooftranslated";
         $method = 'post';
         $params['source_lang'] = $source;
         $params['target_lang'] = $target;
-        $params['resources'] = $resources;
+        $params['sources'] = $sources;
         $params['translations'] = $translations;
         $params['word_count'] = $wordCount;
         $params['notes'] = $notes;
         $params['callback_url'] = $callbackUrl;
 
-        return $this->request($url, $method, $params);
+        return json_decode($this->request($url, $method, $params));
     }
 
     /**
      * Create a new Translation + Proofreading
      * @param string $source
      * @param string $target
-     * @param string $resources
+     * @param string $sources
      * @param integer $word_count (optional)
      * @param string $notes (optional)
      * @param string $callback_url (optional)
      * @param array $params (optional)
      * @return stdClass response object
      */
-    public function newTranslationProofreadingProject($source, $target, $resources, $wordCount = 0, $notes = '', $callbackUrl = '', $params = array())
+    public function newTranslationProofreadingProject($source, $target, $sources, $wordCount = 0, $notes = '', $callbackUrl = '', $params = array())
     {
         $url = "/projects/transproof";
         $method = 'post';
         $params['source_lang'] = $source;
         $params['target_lang'] = $target;
-        $params['resources'] = $resources;
+        $params['sources'] = $sources;
         $params['word_count'] = $wordCount;
         $params['notes'] = $notes;
         $params['callback_url'] = $callbackUrl;
 
-        return $this->request($url, $method, $params);
+        return json_decode($this->request($url, $method, $params));
     }
 
     /**
@@ -308,7 +301,7 @@ class OHTAPI
         $url = "/projects/{$projectId}";
         $method = 'delete';
 
-        return $this->request($url, $method);
+        return json_decode($this->request($url, $method));
     }
 
     /**
@@ -317,13 +310,13 @@ class OHTAPI
      * @param string $content (optional)
      * @return stdClass response object
      */
-    public function newComment($projectId, $content = '')
+    public function newProjectComment($projectId, $content = '')
     {
         $url = "/projects/{$projectId}/comments";
         $method = 'post';
         $params['content'] = $content;
 
-        return $this->request($url, $method, $params);
+        return json_decode($this->request($url, $method, $params));
     }
 
     /**
@@ -337,7 +330,7 @@ class OHTAPI
         $url = "/projects/{$projectId}/comments";
         $method = 'get';
 
-        return $this->request($url, $method);
+        return json_decode($this->request($url, $method));
     }
 
     /**
@@ -351,7 +344,7 @@ class OHTAPI
         $url = "/projects/{$projectId}";
         $method = 'get';
 
-        return $this->request($url, $method);
+        return json_decode($this->request($url, $method));
     }
 
     /**
@@ -364,7 +357,7 @@ class OHTAPI
         $url = "/accounts/";
         $method = 'get';
 
-        return $this->request($url, $method);
+        return json_decode($this->request($url, $method));
     }
 
     /**
@@ -377,7 +370,7 @@ class OHTAPI
         $url = "/tm/context";
         $method = 'get';
 
-        return $this->request($url, $method);
+        return json_decode($this->request($url, $method));
     }
 
     /**
@@ -394,7 +387,7 @@ class OHTAPI
         $params['parent_context'] = $parentContext;
         $params['context_name'] = $contextName;
 
-        return $this->request($url, $method, $params);
+        return json_decode($this->request($url, $method, $params));
     }
 
     /**
@@ -408,21 +401,21 @@ class OHTAPI
         $url = "/tm/context/{$contextId}";
         $method = 'delete';
 
-        return $this->request($url, $method);
+        return json_decode($this->request($url, $method));
     }
 
     /**
-     * Show context
+     * Get context
      *
      * @param string $contextId
      * @return stdClass response object
      */
-    public function showContext($contextId)
+    public function getContext($contextId)
     {
         $url = "/tm/context/{$contextId}";
         $method = 'get';
 
-        return $this->request($url, $method);
+        return json_decode($this->request($url, $method));
     }
 
     /**
@@ -439,11 +432,11 @@ class OHTAPI
         $params['phrase_keys'] = $phraseKeys;
         $params['retranslate'] = $retranslate;
 
-        return $this->request($url, $method, $params);
+        return json_decode($this->request($url, $method, $params));
     }
 
     /**
-     * Create phrase
+     * Update phrase
      *
      * @param string $contextId
      * @param string $phraseKey
@@ -454,7 +447,7 @@ class OHTAPI
      * @param string $remarks (optional)
      * @return stdClass response object
      */
-    public function createPhrase($contextId, $phraseKey, $sourceText = '', $targetLang = '', $targetText = '', $flags = 0, $remarks = '')
+    public function updatePhrase($contextId, $phraseKey, $sourceText = '', $targetLang = '', $targetText = '', $flags = 0, $remarks = '')
     {
         $url = "/tm/context/{$contextId}/phrase/{$phraseKey}";
         $method = 'post';
@@ -466,7 +459,7 @@ class OHTAPI
         $params['flags'] = $flags;
         $params['remarks'] = $remarks;
 
-        return $this->request($url, $method, $params);
+        return json_decode($this->request($url, $method, $params));
     }
 
     /**
@@ -481,22 +474,22 @@ class OHTAPI
         $url = "/tm/context/{$contextId}/phrase/{$phraseKey}";
         $method = 'delete';
 
-        return $this->request($url, $method);
+        return json_decode($this->request($url, $method));
     }
 
     /**
-     * Show phrase
+     * Get phrase
      *
      * @param string $contextId
      * @param string $phraseKey
      * @return stdClass response object
      */
-    public function showPhrase($contextId, $phraseKey)
+    public function getPhrase($contextId, $phraseKey)
     {
         $url = "/tm/context/{$contextId}/phrase/{$phraseKey}";
         $method = 'get';
 
-        return $this->request($url, $method);
+        return json_decode($this->request($url, $method));
     }
 
     /**
@@ -511,7 +504,7 @@ class OHTAPI
      * @param string $remarks (optional)
      * @return stdClass response object
      */
-    public function createPhrases($contextId, $sourceLang, $sourceText, $targetLang = '', $targetText = '', $phraseKey = '', $remarks = '')
+    public function createPhrase($contextId, $sourceLang, $sourceText, $targetLang = '', $targetText = '', $phraseKey = '', $remarks = '')
     {
         $url = "/tm/context/{$contextId}/phrases";
         $method = 'post';
@@ -523,11 +516,11 @@ class OHTAPI
         $params['phrase_key'] = $phraseKey;
         $params['remarks'] = $remarks;
 
-        return $this->request($url, $method, $params);
+        return json_decode($this->request($url, $method, $params));
     }
 
     /**
-     * Show phrases
+     * Get phrases
      *
      * @param string $contextId
      * @param string $sourceLang (optional)
@@ -535,7 +528,7 @@ class OHTAPI
      * @param string $targetLang (optional)
      * @return stdClass response object
      */
-    public function showPhrases($contextId, $sourceLang = '', $sourceText = '', $targetLang = '')
+    public function getPhrases($contextId, $sourceLang = '', $sourceText = '', $targetLang = '')
     {
         $url = "/tm/context/{$contextId}/phrases";
         $method = 'get';
@@ -544,7 +537,7 @@ class OHTAPI
         $params['source_text'] = $sourceText;
         $params['target_lang'] = $targetLang;
 
-        return $this->request($url, $method, $params);
+        return json_decode($this->request($url, $method, $params));
     }
 
     /**
@@ -558,10 +551,10 @@ class OHTAPI
     {
         $url = "/resources/file";
         $method = 'post';
+        $params['file'] = '@' . $filePath;
         $params['file_name'] = $fileName;
-        $params['file'] = $filePath;
 
-        return $this->request($url, $method, $params);
+        return json_decode($this->request($url, $method, $params));
     }
 
     /**
@@ -576,60 +569,84 @@ class OHTAPI
         $method = 'post';
         $params['text'] = $text;
 
-        return $this->request($url, $method, $params);
+        return json_decode($this->request($url, $method, $params));
     }
 
     /**
-     * Show resource
+     * Get resource
      *
-     * @param string $resources
+     * @param string $resource
+     * @param string $fetch (optional)
      * @return stdClass response object
      */
-    public function showResource($resources)
+    public function getResource($resource, $fetch = false, $filePath = false)
     {
-        $url = "/resources/{$resources}";
-        $method = 'get';
-        $params['fetch'] = $text;
+        if ($fetch == RESOURCE_RESPONSE_DOWNLOAD && empty($filePath)) {
+            throw new Exception('Please specify path where resource should be saved.');
+        }
 
-        return $this->request($url, $method, $params);
+        if ($fetch == RESOURCE_RESPONSE_DOWNLOAD) {
+            $this->downloadResource($resource, $filePath);
+        }
+
+        $url = "/resources/{$resource}";
+        $method = 'get';
+        $params['fetch'] = $fetch;
+        return json_decode($this->request($url, $method, $params));
+    }
+
+    /**
+     * Download resource
+     *
+     * @param string $resource
+     * @param string $fetch (optional)
+     * @return stdClass response object
+     */
+    public function downloadResource($resource, $filePath)
+    {
+        $url = "/resources/{$resource}/download";
+        $method = 'get';
+
+        file_put_contents($filePath, $this->request($url, $method));
+        return true;
     }
 
     /**
      * Get quotations
      *
-     * @param string $resources
+     * @param string $sources
      * @param string $wordcount
      * @param string $currency (optional)
      * @param string $proofreading (optional)
      * @param string $expertise (optional)
      * @return stdClass response object
      */
-    public function getQuotations($resources, $wordcount, $currency = '', $proofreading = '', $expertise = '')
+    public function getQuotations($sources, $wordcount, $currency = '', $proofreading = '', $expertise = '')
     {
         $url = "/tools/quote";
         $method = 'get';
-        $params['resources'] = $resources;
+        $params['sources'] = $sources;
         $params['wordcount'] = $wordcount;
         $params['currency'] = $currency;
         $params['proofreading'] = $proofreading;
         $params['expertise'] = $expertise;
 
-        return $this->request($url, $method, $params);
+        return json_decode($this->request($url, $method, $params));
     }
 
     /**
      * Get wordcount
      *
-     * @param string $resources
+     * @param string $sources
      * @return stdClass response object
      */
-    public function getWordcount($resources)
+    public function getWordcount($sources)
     {
         $url = "/tools/wordcount";
         $method = 'get';
-        $params['resources'] = $resources;
+        $params['sources'] = $sources;
 
-        return $this->request($url, $method, $params);
+        return json_decode($this->request($url, $method, $params));
     }
 
     /**
@@ -645,7 +662,7 @@ class OHTAPI
         $method = 'get';
         $params['source_content'] = $sourceContent;
 
-        return $this->request($url, $method, $params);
+        return json_decode($this->request($url, $method, $params));
     }
 
     /**
@@ -665,7 +682,7 @@ class OHTAPI
         $params['source_lang'] = $sourceLang;
         $params['target_lang'] = $targetLang;
 
-        return $this->request($url, $method, $params);
+        return json_decode($this->request($url, $method, $params));
     }
 
     protected function request($requestUrl, $method = 'get', $params = array())
@@ -673,7 +690,7 @@ class OHTAPI
         $ch = curl_init();
         $url = $this->getBaseURL() . $requestUrl;
         $opts = array();
-        $params['account_id'] = $this->getAccountId();
+        $params['public_key'] = $this->getPublicKey();
         $params['secret_key'] = $this->getSecretKey();
 
         if ($method == 'post') {
@@ -688,43 +705,29 @@ class OHTAPI
         $opts[CURLOPT_RETURNTRANSFER] = TRUE;
         $opts[CURLOPT_SSL_VERIFYPEER] = FALSE;
 
-
         curl_setopt_array($ch, $opts);
         $result = curl_exec($ch);
-
-        $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
         curl_close($ch);
 
-        if ($httpCode == 404) {
-            throw new Exception('OneHourTranslation could not be reached.');
-        } else {
-            $obj = json_decode($result);
-            if (!is_object($obj)) {
-                throw new Exception('OneHourTranslation response was malformed.');
-            } elseif ($httpCode != 200) {
-                throw new OHTAPI_Exception($httpCode, $obj->status_code, $obj->status_msg);
-            } else {
-                return $obj;
-            }
-        }
+        return $result;
     }
 
     /**
      *
      * @return
      */
-    public function getAccountId()
+    public function getPublicKey()
     {
-        return $this->accountId;
+        return $this->publicKey;
     }
 
     /**
      *
-     * @param $accountId
+     * @param $publicKey
      */
-    public function setAccountId($accountId)
+    public function setPublicKey($publicKey)
     {
-        $this->accountId = $accountId;
+        $this->publicKey = $publicKey;
     }
 
     /**
@@ -766,9 +769,9 @@ class OHTAPI
     public function getBaseURL()
     {
         if ($this->getSandbox()) {
-            return self::OHT_SANDBOX_URL;
+            return OHT_SANDBOX_URL;
         }
-        return self::OHT_PRODUCTION_URL;
+        return OHT_PRODUCTION_URL;
     }
 
 }

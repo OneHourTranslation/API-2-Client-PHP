@@ -9,7 +9,7 @@ try {
     ));
     $oht = OHTAPI::getInstance();
 
-    $result = $oht->uploadTextResource('Hello world');
+    $result = $oht->uploadFileResource('../lib/OHTAPI.php', 'OHTAPI');
 
     var_dump($result);
 } catch (Exception $e) {

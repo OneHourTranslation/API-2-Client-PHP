@@ -3,9 +3,9 @@
 require_once '../lib/OHTAPI.php';
 try {
     OHTAPI::config(array(
-        'account_id' => 6, //demo user account
-        'secret_key' => '7b65907c8fc341bcd558850b71150fd2', //demo user account
-        'sandbox' => true //use sandbox
+        'public_key' => OHT_API_PUBLIC_KEY,
+        'secret_key' => OHT_API_SECRET_KEY,
+        'sandbox' => true
     ));
     $oht = OHTAPI::getInstance();
 

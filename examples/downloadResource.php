@@ -9,7 +9,7 @@ try {
     ));
     $oht = OHTAPI::getInstance();
 
-    $result = $oht->uploadTextResource('Hello world');
+    $result = $oht->downloadResource('rsc-50c8891e2ee932-49177670', 'demo.php');
 
     var_dump($result);
 } catch (Exception $e) {
