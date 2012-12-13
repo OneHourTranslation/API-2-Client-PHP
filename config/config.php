@@ -9,3 +9,11 @@ define('OHT_SANDBOX_URL', 'http://max.oht/api/2');
 
 define('RESOURCE_RESPONSE_BASE64', 'base64');
 define('RESOURCE_RESPONSE_DOWNLOAD', 'download');
+
+define('CURRENCY_USD', 'USD');
+define('CURRENCY_NIS', 'NIS');
+define('CURRENCY_EUR', 'EUR');
+
+define('CONTENT_TYPE_JSON', 'json');
+define('CONTENT_TYPE_XML', 'xml');
+define('CONTENT_TYPE_TEXT', 'text');

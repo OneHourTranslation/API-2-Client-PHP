@@ -188,7 +188,7 @@ class OHTAPI
         $params['notes'] = $notes;
         $params['callback_url'] = $callbackUrl;
 
-        return json_decode($this->request($url, $method, $params));
+        return $this->jsonOutput($this->request($url, $method, $params));
     }
 
     /**
@@ -212,7 +212,7 @@ class OHTAPI
         $params['notes'] = $notes;
         $params['callback_url'] = $callbackUrl;
 
-        return json_decode($this->request($url, $method, $params));
+        return $this->jsonOutput($this->request($url, $method, $params));
     }
 
     /**
@@ -236,7 +236,7 @@ class OHTAPI
         $params['notes'] = $notes;
         $params['callback_url'] = $callbackUrl;
 
-        return json_decode($this->request($url, $method, $params));
+        return $this->jsonOutput($this->request($url, $method, $params));
     }
 
     /**
@@ -263,7 +263,7 @@ class OHTAPI
         $params['notes'] = $notes;
         $params['callback_url'] = $callbackUrl;
 
-        return json_decode($this->request($url, $method, $params));
+        return $this->jsonOutput($this->request($url, $method, $params));
     }
 
     /**
@@ -288,7 +288,7 @@ class OHTAPI
         $params['notes'] = $notes;
         $params['callback_url'] = $callbackUrl;
 
-        return json_decode($this->request($url, $method, $params));
+        return $this->jsonOutput($this->request($url, $method, $params));
     }
 
     /**
@@ -301,7 +301,7 @@ class OHTAPI
         $url = "/projects/{$projectId}";
         $method = 'delete';
 
-        return json_decode($this->request($url, $method));
+        return $this->jsonOutput($this->request($url, $method));
     }
 
     /**
@@ -316,7 +316,7 @@ class OHTAPI
         $method = 'post';
         $params['content'] = $content;
 
-        return json_decode($this->request($url, $method, $params));
+        return $this->jsonOutput($this->request($url, $method, $params));
     }
 
     /**
@@ -330,7 +330,7 @@ class OHTAPI
         $url = "/projects/{$projectId}/comments";
         $method = 'get';
 
-        return json_decode($this->request($url, $method));
+        return $this->jsonOutput($this->request($url, $method));
     }
 
     /**
@@ -344,7 +344,7 @@ class OHTAPI
         $url = "/projects/{$projectId}";
         $method = 'get';
 
-        return json_decode($this->request($url, $method));
+        return $this->jsonOutput($this->request($url, $method));
     }
 
     /**
@@ -357,7 +357,7 @@ class OHTAPI
         $url = "/accounts/";
         $method = 'get';
 
-        return json_decode($this->request($url, $method));
+        return $this->jsonOutput($this->request($url, $method));
     }
 
     /**
@@ -370,7 +370,7 @@ class OHTAPI
         $url = "/tm/context";
         $method = 'get';
 
-        return json_decode($this->request($url, $method));
+        return $this->jsonOutput($this->request($url, $method));
     }
 
     /**
@@ -387,7 +387,7 @@ class OHTAPI
         $params['parent_context'] = $parentContext;
         $params['context_name'] = $contextName;
 
-        return json_decode($this->request($url, $method, $params));
+        return $this->jsonOutput($this->request($url, $method, $params));
     }
 
     /**
@@ -401,7 +401,7 @@ class OHTAPI
         $url = "/tm/context/{$contextId}";
         $method = 'delete';
 
-        return json_decode($this->request($url, $method));
+        return $this->jsonOutput($this->request($url, $method));
     }
 
     /**
@@ -415,7 +415,7 @@ class OHTAPI
         $url = "/tm/context/{$contextId}";
         $method = 'get';
 
-        return json_decode($this->request($url, $method));
+        return $this->jsonOutput($this->request($url, $method));
     }
 
     /**
@@ -432,7 +432,7 @@ class OHTAPI
         $params['phrase_keys'] = $phraseKeys;
         $params['retranslate'] = $retranslate;
 
-        return json_decode($this->request($url, $method, $params));
+        return $this->jsonOutput($this->request($url, $method, $params));
     }
 
     /**
@@ -459,7 +459,7 @@ class OHTAPI
         $params['flags'] = $flags;
         $params['remarks'] = $remarks;
 
-        return json_decode($this->request($url, $method, $params));
+        return $this->jsonOutput($this->request($url, $method, $params));
     }
 
     /**
@@ -474,7 +474,7 @@ class OHTAPI
         $url = "/tm/context/{$contextId}/phrase/{$phraseKey}";
         $method = 'delete';
 
-        return json_decode($this->request($url, $method));
+        return $this->jsonOutput($this->request($url, $method));
     }
 
     /**
@@ -489,7 +489,7 @@ class OHTAPI
         $url = "/tm/context/{$contextId}/phrase/{$phraseKey}";
         $method = 'get';
 
-        return json_decode($this->request($url, $method));
+        return $this->jsonOutput($this->request($url, $method));
     }
 
     /**
@@ -516,7 +516,7 @@ class OHTAPI
         $params['phrase_key'] = $phraseKey;
         $params['remarks'] = $remarks;
 
-        return json_decode($this->request($url, $method, $params));
+        return $this->jsonOutput($this->request($url, $method, $params));
     }
 
     /**
@@ -537,7 +537,7 @@ class OHTAPI
         $params['source_text'] = $sourceText;
         $params['target_lang'] = $targetLang;
 
-        return json_decode($this->request($url, $method, $params));
+        return $this->jsonOutput($this->request($url, $method, $params));
     }
 
     /**
@@ -554,7 +554,7 @@ class OHTAPI
         $params['file'] = '@' . $filePath;
         $params['file_name'] = $fileName;
 
-        return json_decode($this->request($url, $method, $params));
+        return $this->jsonOutput($this->request($url, $method, $params));
     }
 
     /**
@@ -569,7 +569,7 @@ class OHTAPI
         $method = 'post';
         $params['text'] = $text;
 
-        return json_decode($this->request($url, $method, $params));
+        return $this->jsonOutput($this->request($url, $method, $params));
     }
 
     /**
@@ -582,7 +582,7 @@ class OHTAPI
     public function getResource($resource, $fetch = false, $filePath = false)
     {
         if ($fetch == RESOURCE_RESPONSE_DOWNLOAD && empty($filePath)) {
-            throw new Exception('Please specify path where resource should be saved.');
+            throw new Exception('Please specify path where resource should be saved');
         }
 
         if ($fetch == RESOURCE_RESPONSE_DOWNLOAD) {
@@ -592,14 +592,13 @@ class OHTAPI
         $url = "/resources/{$resource}";
         $method = 'get';
         $params['fetch'] = $fetch;
-        return json_decode($this->request($url, $method, $params));
+        return $this->jsonOutput($this->request($url, $method, $params));
     }
 
     /**
      * Download resource
      *
      * @param string $resource
-     * @param string $fetch (optional)
      * @return stdClass response object
      */
     public function downloadResource($resource, $filePath)
@@ -608,21 +607,28 @@ class OHTAPI
         $method = 'get';
 
         file_put_contents($filePath, $this->request($url, $method));
-        return true;
+        if (file_exists($filePath)) {
+            return true;
+        }
+        throw new Exception('Please specify correct path');
     }
 
     /**
      * Get quotations
      *
-     * @param string $sources
-     * @param string $wordcount
+     * @param string $sources (optional)
+     * @param string $wordcount (optional)
      * @param string $currency (optional)
      * @param string $proofreading (optional)
      * @param string $expertise (optional)
      * @return stdClass response object
      */
-    public function getQuotations($sources, $wordcount, $currency = '', $proofreading = '', $expertise = '')
+    public function getQuotations($sources = '', $wordcount = '', $currency = '', $proofreading = '', $expertise = '')
     {
+        if (empty($sources) && empty($wordcount)) {
+            throw new Exception('Please specify at least sources or wordcount.');
+        }
+
         $url = "/tools/quote";
         $method = 'get';
         $params['sources'] = $sources;
@@ -631,7 +637,7 @@ class OHTAPI
         $params['proofreading'] = $proofreading;
         $params['expertise'] = $expertise;
 
-        return json_decode($this->request($url, $method, $params));
+        return $this->jsonOutput($this->request($url, $method, $params));
     }
 
     /**
@@ -646,7 +652,7 @@ class OHTAPI
         $method = 'get';
         $params['sources'] = $sources;
 
-        return json_decode($this->request($url, $method, $params));
+        return $this->jsonOutput($this->request($url, $method, $params));
     }
 
     /**
@@ -656,13 +662,13 @@ class OHTAPI
      * @param string $contentType
      * @return stdClass response object
      */
-    public function detectLanguage($sourceContent, $contentType)
+    public function detectLanguage($sourceContent, $contentType = CONTENT_TYPE_TEXT)
     {
         $url = "/mt/detect/{$contentType}";
         $method = 'get';
         $params['source_content'] = $sourceContent;
 
-        return json_decode($this->request($url, $method, $params));
+        return $this->jsonOutput($this->request($url, $method, $params));
     }
 
     /**
@@ -674,7 +680,7 @@ class OHTAPI
      * @param string $contentType (optional)
      * @return stdClass response object
      */
-    public function machineTranslation($sourceLang, $targetLang, $sourceContent, $contentType = 'text')
+    public function machineTranslation($sourceLang, $targetLang, $sourceContent, $contentType = CONTENT_TYPE_TEXT)
     {
         $url = "/mt/translate/{$contentType}";
         $method = 'get';
@@ -682,7 +688,7 @@ class OHTAPI
         $params['source_lang'] = $sourceLang;
         $params['target_lang'] = $targetLang;
 
-        return json_decode($this->request($url, $method, $params));
+        return $this->jsonOutput($this->request($url, $method, $params));
     }
 
     protected function request($requestUrl, $method = 'get', $params = array())
@@ -710,6 +716,15 @@ class OHTAPI
         curl_close($ch);
 
         return $result;
+    }
+
+    protected function jsonOutput($result)
+    {
+        $obj = json_decode($result);
+        if (!is_object($obj)) {
+            throw new Exception('OneHourTranslation response was malformed.');
+        }
+        return $obj;
     }
 
     /**
