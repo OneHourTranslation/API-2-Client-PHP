@@ -2,38 +2,31 @@
 
 /*
  * Absolute location of a file that will hold the callback log.
- * Caution! This file WILL be edited and may be deleted. Customize this parameter to indicate an empty files.  
+ * Caution! This file WILL be edited and may be deleted. Customize this parameter to indicate an empty files.
  */
 $tmpDir = '/tmp/callback';
 
 $result = array();
 
-$type = (!empty($_POST['type'])) ? $_POST['type'] : NULL;
-$result['type'] = $type;
+$event = (!empty($_POST['event'])) ? $_POST['event'] : null;
+$result['event'] = $event;
 
-$result['project_id'] = (!empty($_POST['project_id'])) ? (int) $_POST['project_id'] : NULL;
-switch ($type) {
-    case 'status_change' :
-
-        $result['word_count'] = (!empty($_POST['word_count'])) ? (int) $_POST['word_count'] : NULL;
-        $result['source'] = (!empty($_POST['source'])) ? $_POST['source'] : NULL;
-        $result['target'] = (!empty($_POST['target'])) ? $_POST['target'] : NULL;
-        $result['credits'] = (!empty($_POST['credits'])) ? (int) $_POST['credits'] : NULL;
-        $result['project_status'] = (!empty($_POST['project_status'])) ? $_POST['project_status'] : NULL;
-        $result['estimate_finish'] = (!empty($_POST['estimate_finish'])) ? $_POST['estimate_finish'] : NULL;
-        $result['translation_ready'] = (!empty($_POST['translation_ready'])) ? (bool) $_POST['translation_ready'] : NULL;
-        $result['project_url'] = (!empty($_POST['project_url'])) ? $_POST['project_url'] : NULL;
+$result['project_id'] = (!empty($_POST['project_id'])) ? (int) $_POST['project_id'] : null;
+switch ($event) {
+    case 'project.comments.new' :
+        $result['comment_id'] = (!empty($_POST['comment_id'])) ? (int) $_POST['comment_id'] : null;
+        $result['comment_date'] = (!empty($_POST['comment_date'])) ? $_POST['comment_date'] : null;
+        $result['commenter_name'] = (!empty($_POST['commenter_name'])) ? $_POST['commenter_name'] : null;
+        $result['commenter_role'] = (!empty($_POST['commenter_role'])) ? $_POST['commenter_role'] : null;
+        $result['comment_content'] = (!empty($_POST['comment_content'])) ? $_POST['comment_content'] : null;
         break;
-    case 'translation_submitted':
-        $result['original_content'] = (!empty($_POST['original_content'])) ? base64_decode($_POST['original_content']) : NULL;
-        $result['translated_content'] = (!empty($_POST['translated_content'])) ? base64_decode($_POST['translated_content']) : NULL;
-        $result['content_type'] = (!empty($_POST['content_type'])) ? $_POST['content_type'] : NULL;
+    case 'project.resources.new':
+        $result['resource_uuid'] = (!empty($_POST['resource_uuid'])) ? $_POST['resource_uuid'] : null;
+        $result['resource_type'] = (!empty($_POST['resource_type'])) ? $_POST['resource_type'] : null;
         break;
 }
-$result['user_reference'] = (!empty($_POST['user_reference'])) ? $_POST['user_reference'] : NULL;
-$result['project_reference'] = (!empty($_POST['project_reference'])) ? $_POST['project_reference'] : NULL;
 for ($i = 0; $i < 10; $i++) {
-    $result['custom' . $i] = (!empty($_POST['custom' . $i])) ? $_POST['custom' . $i] : NULL;
+    $result['custom' . $i] = (!empty($_POST['custom' . $i])) ? $_POST['custom' . $i] : null;
 }
 
 ob_start();
