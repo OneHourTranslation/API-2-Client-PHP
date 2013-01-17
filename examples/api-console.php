@@ -5,7 +5,7 @@ require_once '../config/config.php';
 /*
  * Switch between "$prod" to use production or "$sandbox" to use sandbox environment.
  */
-$url = OHT_SANDBOX_URL;
+$url = \com\OHT\API\OHT_SANDBOX_URL;
 ?>
 
 <style>
@@ -34,8 +34,8 @@ $url = OHT_SANDBOX_URL;
     <div class="apiForm">
         <form method="post" action="<?php echo $url ?>/projects/translation/" target="resNewIframe">
             URL: <input type="text" name="url" value="<?php echo $url ?>" readonly="readonly" disabled="disabled"/> <br />
-            Public Key: <input type="text" name="public_key" value="<?php echo OHT_API_PUBLIC_KEY ?>" /> <br />
-            Secret Key: <input type="text" name="secret_key" value="<?php echo OHT_API_SECRET_KEY ?>"  /><br />
+            Public Key: <input type="text" name="public_key" value="<public key here>" /> <br />
+            Secret Key: <input type="text" name="secret_key" value="<secret key here>"  /><br />
             Source: <input type="text" name="source_lang" /><br />
             Target: <input type="text" name="target_lang" /><br />
             Resources: <input type="text" name="resources" /><br />
@@ -64,8 +64,8 @@ $url = OHT_SANDBOX_URL;
     <div class="apiForm">
         <form method="get" action="<?php echo $url ?>/projects/" target="resProjDetailsIframe">
             URL: <input type="text" name="url" value="<?php echo $url ?>" readonly="readonly" disabled="disabled"/> <br />
-            Public Key: <input type="text" name="public_key" value="<?php echo OHT_API_PUBLIC_KEY ?>" /> <br />
-            Secret Key: <input type="text" name="secret_key" value="<?php echo OHT_API_SECRET_KEY ?>"  /><br />
+            Public Key: <input type="text" name="public_key" value="<public key here>" /> <br />
+            Secret Key: <input type="text" name="secret_key" value="<secret key here>"  /><br />
             Project ID: <input type="text" name="pid" id="pid"/><br />
             <input type="submit" value="Get Details" onclick="this.form.action = '<?php echo $url ?>/projects/'+this.form.pid.value"/>
         </form>
@@ -82,8 +82,8 @@ $url = OHT_SANDBOX_URL;
     <div class="apiForm">
         <form method="post" action="<?php echo $url ?>/resources/text/" target="resProjContentsIframe">
             URL: <input type="text" name="url" value="<?php echo $url ?>" readonly="readonly" disabled="disabled"/> <br />
-            Public Key: <input type="text" name="public_key" value="<?php echo OHT_API_PUBLIC_KEY ?>" /> <br />
-            Secret Key: <input type="text" name="secret_key" value="<?php echo OHT_API_SECRET_KEY ?>"  /><br />
+            Public Key: <input type="text" name="public_key" value="<public key here>" /> <br />
+            Secret Key: <input type="text" name="secret_key" value="<secret key here>"  /><br />
             Text: <input type="text" name="text" id="text"/><br />
             <input type="submit" value="Submit a New Resource"/>
         </form>
@@ -100,8 +100,8 @@ $url = OHT_SANDBOX_URL;
     <div class="apiForm">
         <form method="get" action="<?php echo $url ?>/accounts/" target="resAccDetailsIframe">
             URL: <input type="text" name="url" value="<?php echo $url ?>" readonly="readonly" disabled="disabled"/> <br />
-            Public Key: <input type="text" name="public_key" value="<?php echo OHT_API_PUBLIC_KEY ?>" /> <br />
-            Secret Key: <input type="text" name="secret_key" value="<?php echo OHT_API_SECRET_KEY ?>"  /><br />
+            Public Key: <input type="text" name="public_key" value="<public key here>" /> <br />
+            Secret Key: <input type="text" name="secret_key" value="<secret key here>"  /><br />
 
             <input type="submit" value="Get Details" />
         </form>
@@ -118,8 +118,8 @@ $url = OHT_SANDBOX_URL;
     <div class="apiForm">
         <form method="post" action="<?php echo $url ?>/mt/translate/text" target="resMTIframe">
             URL: <input type="text" name="url" value="<?php echo $url ?>" readonly="readonly" disabled="disabled"/> <br />
-            Public Key: <input type="text" name="public_key" value="<?php echo OHT_API_PUBLIC_KEY ?>" /> <br />
-            Secret Key: <input type="text" name="secret_key" value="<?php echo OHT_API_SECRET_KEY ?>"  /><br />
+            Public Key: <input type="text" name="public_key" value="<public key here>" /> <br />
+            Secret Key: <input type="text" name="secret_key" value="<secret key here>"  /><br />
             Source: <input type="text" name="source_lang" /><br />
             Target: <input type="text" name="target_lang" /><br />
             Content: <textarea name="source_content" cols="50" rows="20"></textarea><br />

@@ -1,5 +1,7 @@
 <?php
 
+namespace \com\OHT\API;
+
 if (!function_exists('curl_init')) {
     throw new Exception('OneHourTranslation needs the CURL PHP extension.');
 }
@@ -581,11 +583,11 @@ class OHTAPI
      */
     public function getResource($resource, $fetch = false, $filePath = false)
     {
-        if ($fetch == RESOURCE_RESPONSE_DOWNLOAD && empty($filePath)) {
+        if ($fetch == \com\OHT\API\RESOURCE_RESPONSE_DOWNLOAD && empty($filePath)) {
             throw new Exception('Please specify path where resource should be saved');
         }
 
-        if ($fetch == RESOURCE_RESPONSE_DOWNLOAD) {
+        if ($fetch == \com\OHT\API\RESOURCE_RESPONSE_DOWNLOAD) {
             $this->downloadResource($resource, $filePath);
         }
 
@@ -784,9 +786,9 @@ class OHTAPI
     public function getBaseURL()
     {
         if ($this->getSandbox()) {
-            return OHT_SANDBOX_URL;
+            return \com\OHT\API\OHT_SANDBOX_URL;
         }
-        return OHT_PRODUCTION_URL;
+        return \com\OHT\API\OHT_PRODUCTION_URL;
     }
 
 }
