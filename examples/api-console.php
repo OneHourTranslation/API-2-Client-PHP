@@ -38,7 +38,7 @@ $url = com\OHT\API\OHT_SANDBOX_URL;
             Secret Key: <input type="text" name="secret_key" value="<secret key here>"  /><br />
             Source: <input type="text" name="source_lang" /><br />
             Target: <input type="text" name="target_lang" /><br />
-            Resources: <input type="text" name="resources" /><br />
+            Sources: <input type="text" name="sources" /><br />
             Word Count: <input type="text" name="word_count" /><br />
             Notes: <input type="text" name="notes" /><br />
             Callback URL: <input type="text" name="callback_url" /><br />

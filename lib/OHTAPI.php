@@ -424,6 +424,11 @@ class OHTAPI
      * Translate context
      *
      * @param string $contextId
+     * @param string $source
+     * @param string $target
+     * @param integer $wordCount (optional)
+     * @param string $phraseKeys (optional)
+     * @param boolean $retranslate (optional)
      * @return stdClass response object
      */
     public function translateContext($contextId, $source, $target, $wordCount = 0, $phraseKeys = '', $retranslate = false)
@@ -502,7 +507,7 @@ class OHTAPI
      * @param string $sourceText
      * @param string $targetLang (optional)
      * @param string $targetText (optional)
-     * @param string $phraseKey
+     * @param string $phraseKey (optional)
      * @param string $remarks (optional)
      * @return stdClass response object
      */
