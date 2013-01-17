@@ -2,12 +2,12 @@
 
 require_once '../lib/OHTAPI.php';
 try {
-    OHTAPI::config(array(
+    com\OHT\API\OHTAPI::config(array(
         'public_key' => '<public key here>',
         'secret_key' => '<secret key here>',
         'sandbox' => true
     ));
-    $oht = OHTAPI::getInstance();
+    $oht = com\OHT\API\OHTAPI::getInstance();
 
     $result = $oht->machineTranslation(
             'en-us', //from English

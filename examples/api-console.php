@@ -5,7 +5,7 @@ require_once '../config/config.php';
 /*
  * Switch between "$prod" to use production or "$sandbox" to use sandbox environment.
  */
-$url = \com\OHT\API\OHT_SANDBOX_URL;
+$url = com\OHT\API\OHT_SANDBOX_URL;
 ?>
 
 <style>
