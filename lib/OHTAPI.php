@@ -1,15 +1,17 @@
 <?php
 
+namespace com\OHT\API;
+
 if (!function_exists('curl_init')) {
-    throw new Exception('OneHourTranslation needs the CURL PHP extension.');
+    throw new \Exception('OneHourTranslation needs the CURL PHP extension.');
 }
 if (!function_exists('json_decode')) {
-    throw new Exception('OneHourTranslation needs the JSON PHP extension.');
+    throw new \Exception('OneHourTranslation needs the JSON PHP extension.');
 }
 
 require_once '../config/config.php';
 
-class OHTAPI_Exception extends Exception
+class OHTAPI_Exception extends \Exception
 {
 
     protected $statusCode;
@@ -422,6 +424,11 @@ class OHTAPI
      * Translate context
      *
      * @param string $contextId
+     * @param string $source
+     * @param string $target
+     * @param integer $wordCount (optional)
+     * @param string $phraseKeys (optional)
+     * @param boolean $retranslate (optional)
      * @return stdClass response object
      */
     public function translateContext($contextId, $source, $target, $wordCount = 0, $phraseKeys = '', $retranslate = false)
@@ -500,7 +507,7 @@ class OHTAPI
      * @param string $sourceText
      * @param string $targetLang (optional)
      * @param string $targetText (optional)
-     * @param string $phraseKey
+     * @param string $phraseKey (optional)
      * @param string $remarks (optional)
      * @return stdClass response object
      */
@@ -582,7 +589,7 @@ class OHTAPI
     public function getResource($resource, $fetch = false, $filePath = false)
     {
         if ($fetch == RESOURCE_RESPONSE_DOWNLOAD && empty($filePath)) {
-            throw new Exception('Please specify path where resource should be saved');
+            throw new \Exception('Please specify path where resource should be saved');
         }
 
         if ($fetch == RESOURCE_RESPONSE_DOWNLOAD) {
@@ -610,7 +617,7 @@ class OHTAPI
         if (file_exists($filePath)) {
             return true;
         }
-        throw new Exception('Please specify correct path');
+        throw new \Exception('Please specify correct path');
     }
 
     /**
@@ -626,7 +633,7 @@ class OHTAPI
     public function getQuotations($sources = '', $wordcount = '', $currency = '', $proofreading = '', $expertise = '')
     {
         if (empty($sources) && empty($wordcount)) {
-            throw new Exception('Please specify at least sources or wordcount.');
+            throw new \Exception('Please specify at least sources or wordcount.');
         }
 
         $url = "/tools/quote";
@@ -722,7 +729,7 @@ class OHTAPI
     {
         $obj = json_decode($result);
         if (!is_object($obj)) {
-            throw new Exception('OneHourTranslation response was malformed.');
+            throw new \Exception('OneHourTranslation response was malformed.');
         }
         return $obj;
     }
