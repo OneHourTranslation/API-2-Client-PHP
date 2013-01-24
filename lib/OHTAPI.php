@@ -127,7 +127,7 @@ class OHTAPI
     /**
      * Performes preliminary configuration on the OHTAPI class.<br />Make sure to run it before calling OHTAPI::instance() for the first time
      *
-     * @param array $conf - contains the following parameters:<br />
+     * @param Array $conf - contains the following parameters:<br />
      * 	<ol>
      * 	<li>'public_key' - Your OHT public KEY</li>
      *  <li>'secret_key' - Your OHT secret API key</li>
@@ -135,7 +135,7 @@ class OHTAPI
      *  </ol>
      *
      */
-    static public function config(Array $conf = Array())
+    static public function config($conf = Array())
     {
         self::$staticPublicKey = $conf['public_key'];
         self::$staticSecretKey = $conf['secret_key'];
