@@ -36,8 +36,8 @@ $url = com\OHT\API\OHT_SANDBOX_URL;
             URL: <input type="text" name="url" value="<?php echo $url ?>" readonly="readonly" disabled="disabled"/> <br />
             Public Key: <input type="text" name="public_key" value="<public key here>" /> <br />
             Secret Key: <input type="text" name="secret_key" value="<secret key here>"  /><br />
-            Source: <input type="text" name="source_lang" /><br />
-            Target: <input type="text" name="target_lang" /><br />
+            Source: <input type="text" name="source_language" /><br />
+            Target: <input type="text" name="target_language" /><br />
             Sources: <input type="text" name="sources" /><br />
             Word Count: <input type="text" name="word_count" /><br />
             Notes: <input type="text" name="notes" /><br />
@@ -120,8 +120,8 @@ $url = com\OHT\API\OHT_SANDBOX_URL;
             URL: <input type="text" name="url" value="<?php echo $url ?>" readonly="readonly" disabled="disabled"/> <br />
             Public Key: <input type="text" name="public_key" value="<public key here>" /> <br />
             Secret Key: <input type="text" name="secret_key" value="<secret key here>"  /><br />
-            Source: <input type="text" name="source_lang" /><br />
-            Target: <input type="text" name="target_lang" /><br />
+            Source: <input type="text" name="source_language" /><br />
+            Target: <input type="text" name="target_language" /><br />
             Content: <textarea name="source_content" cols="50" rows="20"></textarea><br />
             <input type="submit" value="Translate" />
         </form>
