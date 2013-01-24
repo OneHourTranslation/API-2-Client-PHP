@@ -183,8 +183,8 @@ class OHTAPI
     {
         $url = "/projects/translation";
         $method = 'post';
-        $params['source_lang'] = $source;
-        $params['target_lang'] = $target;
+        $params['source_language'] = $source;
+        $params['target_language'] = $target;
         $params['sources'] = $sources;
         $params['word_count'] = $wordCount;
         $params['notes'] = $notes;
@@ -207,8 +207,8 @@ class OHTAPI
     {
         $url = "/projects/transcription";
         $method = 'post';
-        $params['source_lang'] = $source;
-        $params['target_lang'] = $source;
+        $params['source_language'] = $source;
+        $params['target_language'] = $source;
         $params['sources'] = $sources;
         $params['word_count'] = $wordCount;
         $params['notes'] = $notes;
@@ -231,8 +231,8 @@ class OHTAPI
     {
         $url = "/projects/proofgeneral";
         $method = 'post';
-        $params['source_lang'] = $source;
-        $params['target_lang'] = $source;
+        $params['source_language'] = $source;
+        $params['target_language'] = $source;
         $params['sources'] = $sources;
         $params['word_count'] = $wordCount;
         $params['notes'] = $notes;
@@ -257,8 +257,8 @@ class OHTAPI
     {
         $url = "/projects/prooftranslated";
         $method = 'post';
-        $params['source_lang'] = $source;
-        $params['target_lang'] = $target;
+        $params['source_language'] = $source;
+        $params['target_language'] = $target;
         $params['sources'] = $sources;
         $params['translations'] = $translations;
         $params['word_count'] = $wordCount;
@@ -283,8 +283,8 @@ class OHTAPI
     {
         $url = "/projects/transproof";
         $method = 'post';
-        $params['source_lang'] = $source;
-        $params['target_lang'] = $target;
+        $params['source_language'] = $source;
+        $params['target_language'] = $target;
         $params['sources'] = $sources;
         $params['word_count'] = $wordCount;
         $params['notes'] = $notes;
@@ -461,7 +461,7 @@ class OHTAPI
         $params['context_id'] = $contextId;
         $params['phrase_key'] = $phraseKey;
         $params['source_text'] = $sourceText;
-        $params['target_lang'] = $targetLang;
+        $params['target_language'] = $targetLang;
         $params['target_text'] = $targetText;
         $params['flags'] = $flags;
         $params['remarks'] = $remarks;
@@ -516,9 +516,9 @@ class OHTAPI
         $url = "/tm/context/{$contextId}/phrases";
         $method = 'post';
         $params['context_id'] = $contextId;
-        $params['source_lang'] = $sourceLang;
+        $params['source_language'] = $sourceLang;
         $params['source_text'] = $sourceText;
-        $params['target_lang'] = $targetLang;
+        $params['target_language'] = $targetLang;
         $params['target_text'] = $targetText;
         $params['phrase_key'] = $phraseKey;
         $params['remarks'] = $remarks;
@@ -540,9 +540,9 @@ class OHTAPI
         $url = "/tm/context/{$contextId}/phrases";
         $method = 'get';
         $params['context_id'] = $contextId;
-        $params['source_lang'] = $sourceLang;
+        $params['source_language'] = $sourceLang;
         $params['source_text'] = $sourceText;
-        $params['target_lang'] = $targetLang;
+        $params['target_language'] = $targetLang;
 
         return $this->jsonOutput($this->request($url, $method, $params));
     }
@@ -692,8 +692,8 @@ class OHTAPI
         $url = "/mt/translate/{$contentType}";
         $method = 'get';
         $params['source_content'] = $sourceContent;
-        $params['source_lang'] = $sourceLang;
-        $params['target_lang'] = $targetLang;
+        $params['source_language'] = $sourceLang;
+        $params['target_language'] = $targetLang;
 
         return $this->jsonOutput($this->request($url, $method, $params));
     }
