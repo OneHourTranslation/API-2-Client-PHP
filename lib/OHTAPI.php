@@ -584,21 +584,24 @@ class OHTAPI
      *
      * @param string $resource
      * @param string $fetch (optional)
+     * @param string $filePath (optional)
+     * @param integer $projectId (optional)
      * @return stdClass response object
      */
-    public function getResource($resource, $fetch = false, $filePath = false)
+    public function getResource($resource, $fetch = false, $filePath = false, $projectId = false)
     {
         if ($fetch == RESOURCE_RESPONSE_DOWNLOAD && empty($filePath)) {
             throw new \Exception('Please specify path where resource should be saved');
         }
 
         if ($fetch == RESOURCE_RESPONSE_DOWNLOAD) {
-            $this->downloadResource($resource, $filePath);
+            $this->downloadResource($resource, $filePath, $projectId);
         }
 
         $url = "/resources/{$resource}";
         $method = 'get';
         $params['fetch'] = $fetch;
+        $params['project_id'] = $projectId;
         return $this->jsonOutput($this->request($url, $method, $params));
     }
 
@@ -606,14 +609,17 @@ class OHTAPI
      * Download resource
      *
      * @param string $resource
+     * @param string $filePath
+     * @param integer $projectId (optional)
      * @return stdClass response object
      */
-    public function downloadResource($resource, $filePath)
+    public function downloadResource($resource, $filePath, $projectId = false)
     {
         $url = "/resources/{$resource}/download";
         $method = 'get';
+        $params['project_id'] = $projectId;
 
-        file_put_contents($filePath, $this->request($url, $method));
+        file_put_contents($filePath, $this->request($url, $method, $params));
         if (file_exists($filePath)) {
             return true;
         }
@@ -630,7 +636,7 @@ class OHTAPI
      * @param string $expertise (optional)
      * @return stdClass response object
      */
-    public function getQuotations($sources = '', $wordcount = '', $currency = '', $proofreading = '', $expertise = '')
+    public function getQuotations($sources = '', $wordcount = '', $currency = 'USD', $proofreading = 0, $expertise = '')
     {
         if (empty($sources) && empty($wordcount)) {
             throw new \Exception('Please specify at least sources or wordcount.');
