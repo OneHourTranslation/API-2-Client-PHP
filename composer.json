@@ -23,7 +23,7 @@
     },
     "autoload": {
         "psr-0": {
-            "com\\OHT\\API\\OHTAPI": "lib/"
+            "com\\OHT\\API": "lib/"
         }
     }
 }
