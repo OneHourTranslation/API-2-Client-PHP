@@ -22,8 +22,7 @@
     	"lib-curl" : "*"
     },
     "autoload": {
-        "psr-0": {
-            "com\\OHT\\API": "lib/"
-        }
+        
+        "classmap": ["lib/"]
     }
 }
