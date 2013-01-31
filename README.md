@@ -25,6 +25,14 @@ And include the library in your project:
     <?php
     require_once 'path/to/OHTAPI.php';
     
+#### Installation - Method 2:
+Install with Composer:
+
+    "require" : {
+    	"onehourtranslation/api2" : ">=1.0"
+	} 
+    
+    
 ## Starters' Guide ##
 
 #### Configuration ####
