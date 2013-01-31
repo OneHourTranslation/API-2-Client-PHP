@@ -1,0 +1,29 @@
+{
+	"name" : "onehourtranslation/api2",
+	"type": "library",
+    "description": "PHP client library for One Hour Translation API (version 2)",
+    "keywords": ["one hour translation", "onehourtranslation","api","translation"],
+    "homepage": "https://www.onehourtranslation.com",
+    "authors": [
+        {
+            "name": "Oren Yagev",
+            "email": "oren@onehourtranslation.com"
+        },
+        {
+            "name": "Max Belushkin",
+            "email": "maxb@onehourtranslation.com"
+        }
+    ],
+    "support": {
+        "email": "info@onehourtranslation.com"
+    },
+    "require": {
+    	"php": ">=5.3.0",
+    	"lib-curl" : "*"
+    },
+    "autoload": {
+        "psr-0": {
+            "com\\OHT\\API\\OHTAPI": "lib/"
+        }
+    }
+}
