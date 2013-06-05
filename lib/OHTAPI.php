@@ -659,11 +659,11 @@ class OHTAPI
      * @param string $sources
      * @return stdClass response object
      */
-    public function getWordcount($sources)
+    public function getWordcount($resources)
     {
         $url = "/tools/wordcount";
         $method = 'get';
-        $params['sources'] = $sources;
+        $params['resources'] = $resources;
 
         return $this->jsonOutput($this->request($url, $method, $params));
     }
