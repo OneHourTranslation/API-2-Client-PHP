@@ -11,7 +11,8 @@ $result = array();
 $event = (!empty($_POST['event'])) ? $_POST['event'] : null;
 $result['event'] = $event;
 
-$result['project_id'] = (!empty($_POST['project_id'])) ? (int) $_POST['project_id'] : null;
+$result['project_id']           = (!empty($_POST['project_id']))            ? (int) $_POST['project_id']            : null;
+$result['project_status_code']  = (!empty($_POST['project_status_code']))   ? $_POST['project_status_code']         : null;
 switch ($event) {
     case 'project.comments.new' :
         $result['comment_id'] = (!empty($_POST['comment_id'])) ? (int) $_POST['comment_id'] : null;
