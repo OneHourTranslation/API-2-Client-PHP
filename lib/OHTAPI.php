@@ -173,7 +173,7 @@ class OHTAPI
      * @param string $source
      * @param string $target
      * @param string $sources
-     * @param integer $word_count (optional)
+     * @param integer $wordCount (optional)
      * @param string $notes (optional)
      * @param string $callback_url (optional)
      * @param array $params (optional)
@@ -186,7 +186,7 @@ class OHTAPI
         $params['source_language'] = $source;
         $params['target_language'] = $target;
         $params['sources'] = $sources;
-        $params['word_count'] = $wordCount;
+        $params['wordcount'] = $wordCount;
         $params['notes'] = $notes;
         $params['callback_url'] = $callbackUrl;
 
@@ -197,7 +197,7 @@ class OHTAPI
      * Create a new Transcription Project
      * @param string $source
      * @param string $sources
-     * @param integer $word_count (optional)
+     * @param integer $wordCount (optional)
      * @param string $notes (optional)
      * @param string $callback_url (optional)
      * @param array $params (optional)
@@ -210,7 +210,7 @@ class OHTAPI
         $params['source_language'] = $source;
         $params['target_language'] = $source;
         $params['sources'] = $sources;
-        $params['word_count'] = $wordCount;
+        $params['wordcount'] = $wordCount;
         $params['notes'] = $notes;
         $params['callback_url'] = $callbackUrl;
 
@@ -221,7 +221,7 @@ class OHTAPI
      * Create a new Proofreading Project (only source docs)
      * @param string $source
      * @param string $sources
-     * @param integer $word_count (optional)
+     * @param integer $wordCount (optional)
      * @param string $notes (optional)
      * @param string $callback_url (optional)
      * @param array $params (optional)
@@ -234,7 +234,7 @@ class OHTAPI
         $params['source_language'] = $source;
         $params['target_language'] = $source;
         $params['sources'] = $sources;
-        $params['word_count'] = $wordCount;
+        $params['wordcount'] = $wordCount;
         $params['notes'] = $notes;
         $params['callback_url'] = $callbackUrl;
 
@@ -247,7 +247,7 @@ class OHTAPI
      * @param string $target
      * @param string $sources
      * @param string $translations
-     * @param integer $word_count (optional)
+     * @param integer $wordCount (optional)
      * @param string $notes (optional)
      * @param string $callback_url (optional)
      * @param array $params (optional)
@@ -261,7 +261,7 @@ class OHTAPI
         $params['target_language'] = $target;
         $params['sources'] = $sources;
         $params['translations'] = $translations;
-        $params['word_count'] = $wordCount;
+        $params['wordcount'] = $wordCount;
         $params['notes'] = $notes;
         $params['callback_url'] = $callbackUrl;
 
@@ -273,7 +273,7 @@ class OHTAPI
      * @param string $source
      * @param string $target
      * @param string $sources
-     * @param integer $word_count (optional)
+     * @param integer $wordCount (optional)
      * @param string $notes (optional)
      * @param string $callback_url (optional)
      * @param array $params (optional)
@@ -286,7 +286,7 @@ class OHTAPI
         $params['source_language'] = $source;
         $params['target_language'] = $target;
         $params['sources'] = $sources;
-        $params['word_count'] = $wordCount;
+        $params['wordcount'] = $wordCount;
         $params['notes'] = $notes;
         $params['callback_url'] = $callbackUrl;
 
