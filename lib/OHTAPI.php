@@ -356,7 +356,7 @@ class OHTAPI
      */
     public function getAccountDetails()
     {
-        $url = "/accounts/";
+        $url = "/account";
         $method = 'get';
 
         return $this->jsonOutput($this->request($url, $method));
