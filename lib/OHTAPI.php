@@ -560,7 +560,14 @@ class OHTAPI
     {
         $url = "/resources/file";
         $method = 'post';
-        $params['file'] = '@' . $filePath;
+        
+        if(class_exists('\CURLFile')) {
+            $params['file'] = new \CURLFile($filePath);
+        }
+        else {
+            $params['file'] = '@' . $filePath;
+        }
+        
         $params['file_name'] = $fileName;
 
         return $this->jsonOutput($this->request($url, $method, $params));
