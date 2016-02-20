@@ -434,6 +434,9 @@ class OHTAPI
      */
     public function translateContext($contextId, $source, $target, $wordCount = 0, $phraseKeys = '', $retranslate = false, $callbackUrl = '')
     {
+        $source = $this->getLanguageString($source);
+        $target = $this->getLanguageString($target);
+
         $url = "/tm/context/{$contextId}/translate/{$source}/to/{$target}";
         $method = 'post';
         $params['word_count'] = $wordCount;
@@ -814,6 +817,15 @@ class OHTAPI
             return OHT_SANDBOX_URL;
         }
         return OHT_PRODUCTION_URL;
+    }
+
+    /**
+     * @param $language
+     * @return string
+     */
+    protected function getLanguageString($language)
+    {
+        return str_replace(' ', '-', $language);
     }
 
 }
