@@ -430,9 +430,10 @@ class OHTAPI
      * @param string $phraseKeys (optional)
      * @param boolean $retranslate (optional)
      * @param string $callbackUrl (optional)
+     * @param string $notes (optional)
      * @return stdClass response object
      */
-    public function translateContext($contextId, $source, $target, $wordCount = 0, $phraseKeys = '', $retranslate = false, $callbackUrl = '')
+    public function translateContext($contextId, $source, $target, $wordCount = 0, $phraseKeys = '', $retranslate = false, $callbackUrl = '', $notes = '')
     {
         $url = "/tm/context/{$contextId}/translate/{$source}/to/{$target}";
         $method = 'post';
@@ -440,6 +441,7 @@ class OHTAPI
         $params['phrase_keys'] = $phraseKeys;
         $params['retranslate'] = $retranslate;
         $params['callback_url'] = $callbackUrl;
+        $params['notes'] =  $notes;
 
         return $this->jsonOutput($this->request($url, $method, $params));
     }
