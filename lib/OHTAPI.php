@@ -576,6 +576,24 @@ class OHTAPI
     }
 
     /**
+     * Upload file resource from content
+     *
+     * @param string $fileName
+     * @param string $fileContent
+     * @return stdClass response object
+     */
+    public function uploadFileResourceFromContent($fileName, $fileContent)
+    {
+        $url = "/resources/file";
+        $method = 'post';
+
+        $params['file_name']    = $fileName;
+        $params['file_content'] = $fileContent;
+
+        return $this->jsonOutput($this->request($url, $method, $params));
+    }
+
+    /**
      * Upload text resource
      *
      * @param string $text
