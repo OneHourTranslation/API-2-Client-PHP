@@ -668,7 +668,6 @@ class OHTAPI
     public function getQuotations($source_language, $target_language, $resources = '', $wordcount = '', $currency = '', $proofreading = 0, $expertise = '', $service = '')
     {	
         if (empty($resources) && empty($wordcount)) {
-			echo "What????";
             throw new \Exception('Please specify at least sources or wordcount.');
         }
 		
