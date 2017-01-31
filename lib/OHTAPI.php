@@ -424,8 +424,8 @@ class OHTAPI
      * Translate context
      *
      * @param string $contextId
-     * @param string $source
-     * @param string $target
+     * @param string $source e.g. english
+     * @param string $target e.g. french
      * @param integer $wordCount (optional)
      * @param string $phraseKeys (optional)
      * @param boolean $retranslate (optional)
@@ -435,6 +435,9 @@ class OHTAPI
      */
     public function translateContext($contextId, $source, $target, $wordCount = 0, $phraseKeys = '', $retranslate = false, $callbackUrl = '', $notes = '')
     {
+        $source = $this->getLanguageString($source);
+        $target = $this->getLanguageString($target);
+
         $url = "/tm/context/{$contextId}/translate/{$source}/to/{$target}";
         $method = 'post';
         $params['word_count'] = $wordCount;
@@ -612,10 +615,11 @@ class OHTAPI
      * Get resource
      *
      * @param string $resource
-     * @param string $fetch (optional)
-     * @param string $filePath (optional)
-     * @param integer $projectId (optional)
+     * @param bool|string $fetch (optional)
+     * @param bool|string $filePath (optional)
+     * @param bool|int $projectId (optional)
      * @return stdClass response object
+     * @throws \Exception
      */
     public function getResource($resource, $fetch = false, $filePath = false, $projectId = false)
     {
@@ -639,8 +643,9 @@ class OHTAPI
      *
      * @param string $resource
      * @param string $filePath
-     * @param integer $projectId (optional)
+     * @param bool|int $projectId (optional)
      * @return stdClass response object
+     * @throws \Exception
      */
     public function downloadResource($resource, $filePath, $projectId = false)
     {
@@ -661,9 +666,10 @@ class OHTAPI
      * @param string $sources (optional)
      * @param string $wordcount (optional)
      * @param string $currency (optional)
-     * @param string $proofreading (optional)
+     * @param int|string $proofreading (optional)
      * @param string $expertise (optional)
      * @return stdClass response object
+     * @throws \Exception
      */
     public function getQuotations($sources = '', $wordcount = '', $currency = 'USD', $proofreading = 0, $expertise = '')
     {
@@ -685,8 +691,10 @@ class OHTAPI
     /**
      * Get wordcount
      *
-     * @param string $sources
+     * @param $resources
      * @return stdClass response object
+     * @throws \Exception
+     * @internal param string $sources
      */
     public function getWordcount($resources)
     {
@@ -770,8 +778,7 @@ class OHTAPI
     }
 
     /**
-     *
-     * @return
+     * @return int
      */
     public function getPublicKey()
     {
@@ -788,8 +795,7 @@ class OHTAPI
     }
 
     /**
-     *
-     * @return
+     * @return string
      */
     public function getSecretKey()
     {
@@ -798,7 +804,7 @@ class OHTAPI
 
     /**
      *
-     * @param $_secret_key
+     * @param $secretKey
      */
     public function setSecretKey($secretKey)
     {
@@ -806,8 +812,7 @@ class OHTAPI
     }
 
     /**
-     *
-     * @return
+     * @return bool
      */
     public function getSandbox()
     {
@@ -816,19 +821,31 @@ class OHTAPI
 
     /**
      *
-     * @param $_sandbox
+     * @param $sandbox
      */
     public function setSandbox($sandbox)
     {
         $this->sandbox = (boolean) $sandbox;
     }
 
+    /**
+     * @return string
+     */
     public function getBaseURL()
     {
         if ($this->getSandbox()) {
             return OHT_SANDBOX_URL;
         }
         return OHT_PRODUCTION_URL;
+    }
+
+    /**
+     * @param $language
+     * @return string
+     */
+    protected function getLanguageString($language)
+    {
+        return str_replace(' ', '-', $language);
     }
 
 }
