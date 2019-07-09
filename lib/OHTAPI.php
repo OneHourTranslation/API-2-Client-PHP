@@ -179,12 +179,12 @@ class OHTAPI
      * @param array $params (optional)
      * @return stdClass response object
      */
-    public function newTranslationProject($source, $target, $sources, $wordCount = 0, $notes = '', $callbackUrl = '', $params = array())
+    public function newTranslationProject($sources, $source_language, $target_language, $wordCount = 0, $notes = '', $callbackUrl = '', $params = array())
     {
         $url = "/projects/translation";
         $method = 'post';
-        $params['source_language'] = $source;
-        $params['target_language'] = $target;
+        $params['source_language'] = $source_language;
+        $params['target_language'] = $target_language;
         $params['sources'] = $sources;
         $params['wordcount'] = $wordCount;
         $params['notes'] = $notes;
@@ -203,12 +203,11 @@ class OHTAPI
      * @param array $params (optional)
      * @return stdClass response object
      */
-    public function newTranscriptionProject($source, $sources, $wordCount = 0, $notes = '', $callbackUrl = '', $params = array())
+    public function newTranscriptionProject($sources, $source_language, $wordCount = 0, $notes = '', $callbackUrl = '', $params = array())
     {
         $url = "/projects/transcription";
         $method = 'post';
-        $params['source_language'] = $source;
-        $params['target_language'] = $source;
+        $params['source_language'] = $source_language;
         $params['sources'] = $sources;
         $params['wordcount'] = $wordCount;
         $params['notes'] = $notes;
@@ -227,12 +226,11 @@ class OHTAPI
      * @param array $params (optional)
      * @return stdClass response object
      */
-    public function newProofReadingProject($source, $sources, $wordCount = 0, $notes = '', $callbackUrl = '', $params = array())
+    public function newProofReadingProject($sources, $source_language, $wordCount = 0, $notes = '', $callbackUrl = '', $params = array())
     {
-        $url = "/projects/proofgeneral";
+        $url = "/projects/proof-general";
         $method = 'post';
-        $params['source_language'] = $source;
-        $params['target_language'] = $source;
+        $params['source_language'] = $source_language;
         $params['sources'] = $sources;
         $params['wordcount'] = $wordCount;
         $params['notes'] = $notes;
@@ -253,12 +251,12 @@ class OHTAPI
      * @param array $params (optional)
      * @return stdClass response object
      */
-    public function newProofTranslatedProject($source, $target, $sources, $translations, $wordCount = 0, $notes = '', $callbackUrl = '', $params = array())
+    public function newProofTranslatedProject($sources, $translations, $source_language, $target_language, $wordCount = 0, $notes = '', $callbackUrl = '', $params = array())
     {
-        $url = "/projects/prooftranslated";
+        $url = "/projects/proof-translated";
         $method = 'post';
-        $params['source_language'] = $source;
-        $params['target_language'] = $target;
+        $params['source_language'] = $source_language;
+        $params['target_language'] = $target_language;
         $params['sources'] = $sources;
         $params['translations'] = $translations;
         $params['wordcount'] = $wordCount;
@@ -279,12 +277,12 @@ class OHTAPI
      * @param array $params (optional)
      * @return stdClass response object
      */
-    public function newTranslationProofreadingProject($source, $target, $sources, $wordCount = 0, $notes = '', $callbackUrl = '', $params = array())
+    public function newTranslationProofreadingProject($sources, $source_language, $target_language, $wordCount = 0, $notes = '', $callbackUrl = '', $params = array())
     {
         $url = "/projects/transproof";
         $method = 'post';
-        $params['source_language'] = $source;
-        $params['target_language'] = $target;
+        $params['source_language'] = $source_language;
+        $params['target_language'] = $target_language;
         $params['sources'] = $sources;
         $params['wordcount'] = $wordCount;
         $params['notes'] = $notes;
@@ -601,10 +599,11 @@ class OHTAPI
      * Upload file resource
      *
      * @param string $filePath
-     * @param string $fileName
+     * @param string $fileName (Optional)
+	 * @param string $fileMime (Optional)
      * @return stdClass response object
      */
-    public function uploadFileResource($filePath, $fileName)
+    public function uploadFileResource($filePath, $fileName = null, $fileMime = null)
     {
         $url = "/resources/file";
         $method = 'post';
@@ -617,6 +616,7 @@ class OHTAPI
         }
         
         $params['file_name'] = $fileName;
+		$params['file_mime'] = $fileMime;
 
         return $this->jsonOutput($this->request($url, $method, $params));
     }
@@ -711,20 +711,23 @@ class OHTAPI
      * @param string $expertise (optional)
      * @return stdClass response object
      */
-    public function getQuotations($sources = '', $wordcount = '', $currency = 'USD', $proofreading = 0, $expertise = '')
-    {
-        if (empty($sources) && empty($wordcount)) {
+    public function getQuotations($source_language, $target_language, $resources = '', $wordcount = '', $currency = '', $proofreading = 0, $expertise = '', $service = '')
+    {	
+        if (empty($resources) && empty($wordcount)) {
             throw new \Exception('Please specify at least sources or wordcount.');
         }
-
+		
         $url = "/tools/quote";
         $method = 'get';
-        $params['sources'] = $sources;
+        $params['resources'] = $resources;
         $params['wordcount'] = $wordcount;
+		$params['source_language'] = $source_language;
+		$params['target_language'] = $target_language;
         $params['currency'] = $currency;
         $params['proofreading'] = $proofreading;
         $params['expertise'] = $expertise;
-
+		$params['service'] = $service;
+		
         return $this->jsonOutput($this->request($url, $method, $params));
     }
 
@@ -775,6 +778,114 @@ class OHTAPI
         $params['source_content'] = $sourceContent;
         $params['source_language'] = $sourceLang;
         $params['target_language'] = $targetLang;
+
+        return $this->jsonOutput($this->request($url, $method, $params));
+    }
+	
+	/**
+     * Discover Supported Languages
+	 * 
+     * @return stdClass response object
+     */
+    public function discoverSupportedLanguages()
+    {
+        $url = "/discover/languages";
+        $method = 'get';
+        return $this->jsonOutput($this->request($url, $method));
+    }
+	
+	/**
+     * Discover Supported Language Pairs
+	 * 
+     * @return stdClass response object
+     */
+    public function discoverSupportedLanguagePairs()
+    {
+        $url = "/discover/language_pairs";
+        $method = 'get';
+        return $this->jsonOutput($this->request($url, $method));
+    }
+	
+	/**
+     * Discover Supported Expertise
+	 * @param string $source_language
+     * @param string $target_language
+     * @return stdClass response object
+     */
+	public function discoverSupportedExpertise($source_language = '', $target_language = '')
+    {
+        $url = "/discover/expertise";
+        $method = 'get';
+        $params['source_language'] = $source_language;
+        $params['target_language'] = $target_language;
+
+        return $this->jsonOutput($this->request($url, $method, $params));
+    }
+	
+	/**
+     * Add tag to project
+     *
+	 * @param integer $project_id
+     * @param string $tag_name
+     * @return stdClass response object
+     */
+    public function addTagToProject($project_id, $tag_name)
+    {
+        $url = "/project/{$project_id}/tag";
+        $method = 'post';
+        $params['tag_name'] = $tag_name;
+
+        return $this->jsonOutput($this->request($url, $method, $params));
+    }
+	
+	/**
+     * Get project tags
+     *
+	 * @param integer $project_id
+     * @return stdClass response object
+     */
+    public function getProjectTags($project_id)
+    {
+        $url = "/project/{$project_id}/tag";
+        $method = 'get';
+
+        return $this->jsonOutput($this->request($url, $method));
+    }
+	
+	/**
+     * Delete project tag
+     *
+	 * @param integer $project_id
+	 * @param integer $tag_id
+     * @return stdClass response object
+     */
+    public function deleteProjectTag($project_id, $tag_id)
+    {
+        $url = "/project/{$project_id}/tag/{$tag_id}";
+        $method = 'delete';
+
+        return $this->jsonOutput($this->request($url, $method));
+    }
+	
+	/**
+     * Rate Project
+	 * 
+	 * @param integer $project_id
+     * @param string $type
+     * @param integer $rate
+     * @param string $remarks (optional)
+     * @param integer $publish (optional)
+     * @param array $params (optional)
+     * @return stdClass response object
+     */
+    public function rateProject($project_id, $type, $rate, $remarks = '', $publish = 0, $params = array())
+    {
+        $url = "/projects/{$project_id}/rating";
+        $method = 'post';
+        $params['type'] = $type;
+        $params['rate'] = $rate;
+        $params['remarks'] = $remarks;
+        $params['publish'] = $publish;
 
         return $this->jsonOutput($this->request($url, $method, $params));
     }
