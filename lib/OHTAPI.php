@@ -363,6 +363,52 @@ class OHTAPI
     }
 
     /**
+     * Get supported languages
+     * @return stdClass response object
+     */
+    public function getSupportedLanguages()
+    {
+        $url = "/discover/languages";
+        $method = 'get';
+
+        return $this->jsonOutput($this->request($url, $method));
+    }
+
+    /**
+     * Get supported language pairs
+     * @return stdClass response object
+     */
+    public function getSupportedLanguagePairs()
+    {
+        $url = "/discover/language_pairs";
+        $method = 'get';
+
+        return $this->jsonOutput($this->request($url, $method));
+    }
+
+    /**
+     * Get supported expertise
+     *
+     * @param string|null $sourceLanguage
+     * @param string|null $targetLanguage
+     * @return stdClass response object
+     */
+    public function getSupportedExpertise($sourceLanguage = null, $targetLanguage = null)
+    {
+        $url = "/discover/expertise";
+        $method = 'get';
+
+        if ($sourceLanguage || $targetLanguage) {
+            $params['source_language'] = $sourceLanguage;
+            $params['target_language'] = $targetLanguage;
+        } else {
+            $params = [];
+        }
+
+        return $this->jsonOutput($this->request($url, $method, $params));
+    }
+
+    /**
      * Fetch context list for specified user
      *
      * @return stdClass response object
