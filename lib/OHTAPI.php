@@ -704,22 +704,33 @@ class OHTAPI
     /**
      * Get quotations
      *
-     * @param string $sources (optional)
+     * @param string $sourceLangauge
+     * @param string $targetLanguage
+     * @param string $resources (optional)
      * @param string $wordcount (optional)
      * @param string $currency (optional)
      * @param string $proofreading (optional)
      * @param string $expertise (optional)
      * @return stdClass response object
      */
-    public function getQuotations($sources = '', $wordcount = '', $currency = 'USD', $proofreading = 0, $expertise = '')
-    {
-        if (empty($sources) && empty($wordcount)) {
+    public function getQuotations(
+        $sourceLangauge,
+        $targetLanguage,
+        $resources = '',
+        $wordcount = '',
+        $currency = 'USD',
+        $proofreading = 0,
+        $expertise = ''
+    ) {
+        if (empty($resources) && empty($wordcount)) {
             throw new \Exception('Please specify at least sources or wordcount.');
         }
 
         $url = "/tools/quote";
         $method = 'get';
-        $params['sources'] = $sources;
+        $params['source_language'] = $sourceLangauge;
+        $params['target_language'] = $targetLanguage;
+        $params['resources'] = $resources;
         $params['wordcount'] = $wordcount;
         $params['currency'] = $currency;
         $params['proofreading'] = $proofreading;
