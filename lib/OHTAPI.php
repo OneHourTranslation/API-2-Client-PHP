@@ -726,11 +726,14 @@ class OHTAPI
             throw new \Exception('Please specify at least sources or wordcount.');
         }
 
+        if (!empty($resources)) {
+            $params['resources'] = $resources;
+        }
+
         $url = "/tools/quote";
         $method = 'get';
         $params['source_language'] = $sourceLangauge;
         $params['target_language'] = $targetLanguage;
-        $params['resources'] = $resources;
         $params['wordcount'] = $wordcount;
         $params['currency'] = $currency;
         $params['proofreading'] = $proofreading;
