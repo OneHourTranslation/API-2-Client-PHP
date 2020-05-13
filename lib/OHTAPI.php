@@ -709,9 +709,11 @@ class OHTAPI
      * @param string $resources (optional)
      * @param string $wordcount (optional)
      * @param string $currency (optional)
-     * @param string $proofreading (optional)
+     * @param int $proofreading (optional)
      * @param string $expertise (optional)
+     * @param string $service (optional)
      * @return stdClass response object
+     * @throws \Exception
      */
     public function getQuotations(
         $sourceLangauge,
@@ -720,7 +722,8 @@ class OHTAPI
         $wordcount = '',
         $currency = 'USD',
         $proofreading = 0,
-        $expertise = ''
+        $expertise = '',
+        $service = 'translation'
     ) {
         if (empty($resources) && empty($wordcount)) {
             throw new \Exception('Please specify at least sources or wordcount.');
@@ -734,6 +737,7 @@ class OHTAPI
         $method = 'get';
         $params['source_language'] = $sourceLangauge;
         $params['target_language'] = $targetLanguage;
+        $params['service'] = $service;
         $params['wordcount'] = $wordcount;
         $params['currency'] = $currency;
         $params['proofreading'] = $proofreading;
