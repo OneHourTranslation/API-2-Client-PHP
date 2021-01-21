@@ -229,7 +229,7 @@ class OHTAPI
      */
     public function newProofReadingProject($source, $sources, $wordCount = 0, $notes = '', $callbackUrl = '', $params = array())
     {
-        $url = "/projects/proofgeneral";
+        $url = "/projects/proof-general";
         $method = 'post';
         $params['source_language'] = $source;
         $params['target_language'] = $source;
@@ -255,7 +255,7 @@ class OHTAPI
      */
     public function newProofTranslatedProject($source, $target, $sources, $translations, $wordCount = 0, $notes = '', $callbackUrl = '', $params = array())
     {
-        $url = "/projects/prooftranslated";
+        $url = "/projects/proof-translated";
         $method = 'post';
         $params['source_language'] = $source;
         $params['target_language'] = $target;
